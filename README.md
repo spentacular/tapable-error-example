@@ -1,10 +1,10 @@
-Example of `tapable` hositing error when building. We're leveraging the [design-systems-cli](https://github.com/intuit/design-systems-cli), but the errors would happen in any similar scenarios due to hoisting. To see the error:
+Example of `tapable` hositing error:
 
 ```
 yarn run build
 ```
 
-The `@types/webpack` is hoisted all the way from `html-webpack-plugin` which is leveraged by playroom (but tons of packages depend on `html-webpack-plugin`).
+The `@types/webpack` is hoisted from `html-webpack-plugin`. This doesn't always have to be in a top-level dependency either, anything that wraps some type of webpack config in a CLI and depends on any package that hoists `@types/webpack` will face this issue. For example, in one of our projects using the [design-systems-cli](https://github.com/intuit/design-systems-cli) it's hoisted from a very nested dependency on it:
 
 ```
 ❯ yarn why @types/webpack
